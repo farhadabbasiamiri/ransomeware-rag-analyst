@@ -1,17 +1,3 @@
-# ransomeware-rag-analyst
-
-# Group 3b_Capstone_Project
-
-# Manoj Bastakoti
-
-# Diwash Raj Amatya
-
-# Subhash Neupane
-
-# Mandeep Giri
-
-# Swaratmik Khanal
-
 🛡️ Ransomware Threat Intelligence RAG Analyst
 
 Group 3B | Applied AI Agents for Cybersecurity Operations | AI/ML in Cybersecurity (Graduate) | Laurentian University | Fall 2026
