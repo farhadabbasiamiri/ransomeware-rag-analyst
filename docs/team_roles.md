@@ -1,16 +1,11 @@
-## Scope, safety and ethics
+# Team roles and module ownership (Group 3B)
 
-**Defensive use only.** This prototype helps SOC and threat-intelligence analysts understand ransomware behaviour and plan detection, hardening and response. It is a decision-support tool, not an autonomous responder.
+Replace the placeholders with your team's names. Every member contributed code, integration and testing, and can explain the full system.
 
-| Control | How it is implemented |
-|---|---|
-| Public data only | Corpus = public CISA #StopRansomware advisories (TLP:CLEAR), MITRE ATT&CK and CISA's public response checklist. No student, patient, employee or organisational data. No malware samples, no live IOCs fetched, no scanning. |
-| Offensive-use refusal | `guardrails.check_query` refuses requests to build/deploy malware, evade EDR for deployment, write working exploits, draft ransom notes or launder ransom payments, and redirects to a defensive question. |
-| Prompt-injection defence (OWASP LLM01) | Injection phrases in the question are neutralised and flagged; instruction-like lines in retrieved text are stripped before reaching the LLM (RAG-poisoning defence); source text is framed as data, not instructions. |
-| Grounding / hallucination control (OWASP LLM09) | Every answer must cite retrieved sources as `[S#]`. Citations to sources that were not retrieved are removed; an LLM answer with no valid citation is rejected and replaced by a fully cited extractive answer. |
-| Excessive agency (OWASP LLM06) | The agent can only call four read-only tools. Tool names proposed by the LLM are validated against an allow-list. The agent never executes containment actions. |
-| Human-in-the-loop | Containment actions that affect accounts, hosts, network paths or external communication are created as `PENDING APPROVAL`. Only a named analyst with a written justification can approve or reject them; decisions are appended to `logs/approvals.jsonl`. |
-| Privacy-preserving monitoring | `logs/events.jsonl` stores latency, tools used, errors and citation counts. Questions are stored only as a SHA-256 fingerprint and length. |
-| Secrets | No API keys in code. LLM endpoints are configured with environment variables (`.env.example`). The default LLM is local (Ollama). |
-
-**Limitations to keep in mind:** the advisories are analyst-curated summaries (always check the original link for full text and IOCs); intelligence ages quickly; technique mapping is evidence-based but not exhaustive; the tool does not replace an incident-response team, legal counsel or law-enforcement engagement. CISA, MS-ISAC and the FBI do not recommend paying ransoms.
+| Student | Role (from the brief) | Owns | Key files |
+|---|---|---|---|
+| Student 1 — _name_ | **Data Lead** | Source selection, advisory write-ups, ATT&CK extraction, legacy-ID mapping, data card | `data/raw/`, `scripts/fetch_attack.py`, `src/ransomrag/ingest.py`, `docs/data_card.md` |
+| Student 2 — _name_ | **RAG Lead** | Embeddings, hybrid dense + BM25 retrieval, metadata filters, actor/section boosts, retrieval baselines | `src/ransomrag/embeddings.py`, `src/ransomrag/vectorstore.py`, `scripts/build_index.py` |
+| Student 3 — _name_ | **Agent Lead** | Planner (LLM + rules), tool definitions, technique-to-checklist workflow, grounding and approval checkpoint | `src/ransomrag/agent.py`, `src/ransomrag/tools.py`, `src/ransomrag/llm.py`, `src/ransomrag/approval.py` |
+| Student 4 — _name_ | **App Lead** | Gradio UI (search, summarizer, approval, monitoring), Docker, screenshots, README | `src/ransomrag/ui.py`, `app.py`, `Dockerfile`, `docs/screenshots/` |
+| Student 5 — _name_ | **Evaluation Lead** | 25 evaluation questions, safety cases, metrics, error analysis, guardrails, report and demo | `eval/`, `scripts/run_eval.py`, `tests/`, `src/ransomrag/guardrails.py`, `docs/report.md`, `docs/demo_script.md` |
